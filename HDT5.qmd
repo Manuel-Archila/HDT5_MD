@@ -1,0 +1,143 @@
+```{r instalaciones_paquetes, echo=FALSE}
+    install.packages("naivebayes")
+```
+
+```{r cargar_librerias, echo=FALSE, message=FALSE, warning=FALSE}
+    library(e1071)
+    library(caret)
+    library(mlr3)
+    library(mlr3verse)
+    library(rpart)
+    library(rpart.plot)
+    library(Metrics)
+    library(randomForest)
+    library(dplyr)
+    library(ParamHelpers)
+    library(magrittr)
+    library(ggplot2)
+    library(MLmetrics)
+    library(tree)
+    #library(klaR)
+```
+
+# 1. Lectura Dataset
+```{r recoleccion_de_data}
+    datos <- read.csv("train.csv")
+    datos <- datos[ , !(names(datos) %in% c("Id","YrSold","MoSold","GarageYrBlt","MSSubClass","YearBuilt"))]
+
+    Cuantitativas <- c("SalePrice", "LotFrontage", "LotArea", "OverallQual", "OverallCond", "MasVnrArea", "BsmtFinSF1", "BsmtFinSF2", "BsmtUnfSF", "TotalBsmtSF", "X1stFlrSF", "X2ndFlrSF", "LowQualFinSF", "GrLivArea", "BsmtFullBath", "BsmtHalfBath", "FullBath", "HalfBath", "BedroomAbvGr", "KitchenAbvGr", "TotRmsAbvGrd", "Fireplaces", "GarageCars", "GarageArea", "WoodDeckSF", "OpenPorchSF", "EnclosedPorch", "X3SsnPorch", "ScreenPorch", "PoolArea", "MiscVal")
+    df_cuantitativas <- datos[Cuantitativas]
+```
+
+```{r normalizar_datos}
+    datos$LotFrontage[is.na(datos$LotFrontage)] <- median(datos$LotFrontage, na.rm = TRUE)
+    datos$MasVnrArea[is.na(datos$MasVnrArea)] <- median(datos$MasVnrArea, na.rm = TRUE)
+    datos <- datos[ , !(names(datos) %in% c("Alley", "PoolQC", "Fence", "MiscFeature","FireplaceQu"))]
+
+    df_cuantitativas <- datos[Cuantitativas] #Tras los cambios de Na´s
+    df_norm <- mutate_if(datos, is.numeric, scale)
+    df_cualitativas <- df_norm[ , !(names(df_norm) %in% Cuantitativas)]
+
+    for (i in 1:ncol(df_cualitativas)) {
+         df_norm[,i] <- ifelse(is.na(df_norm[,i]), "Desconocido", df_norm[,i])
+    }
+
+    df_norm <- df_norm %>% mutate_at(colnames(df_cualitativas), function(x) as.factor(x))
+
+```
+
+# 1.1 Creacion de nueva variable Classification
+```{r clasificacion}
+    salePrices <- df_norm$SalePrice
+    q1 <- quantile(df_norm$SalePrice, 0.33)
+    q2 <- quantile(df_norm$SalePrice, 0.66)
+    df_norm$Classification <- sapply(df_norm$SalePrice, function(x) ifelse(x < q1, "Economicas", ifelse(x < q2, "Intermedias", "Caras")))
+    df_norm$Classification <- factor(df_norm$Classification)
+```
+
+# 1.2 Dividir el dataset en train y test
+```{r split_data }
+    set.seed(123)
+    porcentaje<-0.7
+    corte <- sample(nrow(df_norm),nrow(df_norm)*porcentaje)
+    train<-df_norm[corte,]
+    test<-df_norm[-corte,]
+    test1 <- test[ , !(names(test) %in% c("SalePrice"))]
+    test2 <- test[ , !(names(test) %in% c("Classification"))]
+
+```
+
+
+Para poder crear la nueva variable Classification, primero se obtuvieron los cuartiles de la variable SalePrice , y se crearon 3 categorias, las cuales son Economicas, Intermedias y Caras. Luego se creó una nueva variable Classification, la cual se llenó con la función sapply, la cual recorre cada valor de la variable SalePrice y dependiendo del valor de la variable SalePrice, se le asigna la categoria correspondiente. Por ultimo se convirtió la variable Classification a factor.
+
+--------------------------------------------------------------------------------------------
+# 2 Creación del modelo de regresión usando Naive Bayes
+```{r naive_bayes_regresion}
+    nb <- naiveBayes(SalePrice ~ ., data = train)
+
+
+    nb_pred_r<-predict(nb, newdata = test1)
+    nb_pred_r<- as.numeric(as.character(nb_pred_r))
+    plot(test$SalePrice, col="red")
+    points(nb_pred_r, col="blue")
+
+    SSE <- sum((test$SalePrice-nb_pred_r)^2, na.rm = T)
+    TSS <- sum((test$SalePrice-mean(test$SalePrice))^2, na.rm = T)
+    R2 <- 1-SSE/TSS
+
+```
+El R^2 del modelo es de `r R2`
+
+# 3 Creación del modelo de clasificación usando Naive Bayes
+```{r naive_bayes_model}
+    nb <- naiveBayes(train$Classification ~ ., data = train)
+    
+
+```
+
+# 4 Prediga con el modelo de clasificación usando Naive Bayes
+```{r naive_bayes_clasificacion_pred}
+    nb_pred_c<-predict(nb, newdata = test2)
+    cm<-caret::confusionMatrix(nb_pred_c,test$Classification)
+    cm
+    recall_score <- Recall(test$Classification, nb_pred_c,positive = c("Caras","Intermedias","Economicas"))
+    recall_score
+    
+```
+
+# 5 Analisis de los resultado del modelo de regresion
+El modelo de regresión no es muy bueno, ya que el R^2 es de `r R2` y un modelo se considera aceptable apartir de 0.75. A pesar de que no es aceptable tampoco es que sea un mal modelo puede predecir la mayoria de los datos. Además si vemos el gráfico de los datos reales y los datos predichos podemos ver que la mayoría de los datos predichos se encuentran cerca de los datos reales. Unicamente se muestran algunos datos que se encuentran muy alejados de los datos reales, pero esto se puede deber a que los datos reales estan sobrevaludados.
+
+# 6 Compare los resultados de los modelos de regresión con los de las hojas pasadas
+Cabe destacar que ningún modelo a llegado a la escala de 0.75, por lo que se puede decir que ninguno de los modelos es aceptable. Esto se puede deber a que los datos al ser precios de casas algunos puden estar sobrevaludados dificultando la predicción. Pero de todos los modelos el este modelo fue el que peor lo hizo. Dentro de los los siguiente modelos: Regresión lineal Multivariable, Arbol de regresión , Regresion Random Forest y Regresión con Naive Bayes el modelo con mejores resultados fue el de Regresión Random Forest con un R^2 de 0.82.
+
+# 7 Analisis de los resultado del modelo de clasificacion
+EL modelo de clasificación no sobresale entre los otros modelos desarrollados ya que presenta un Recall es de `r recall_score`. Este resultado es un poco mayor que el recall de los arboles de regresión. Sin embargo este modelo no es mejor que Random Forest, que es de 0.88
+
+# 8 El modelo de clasificación es mejor que el de regresión?
+```{r overfiting}
+    nb <- naiveBayes(train$Classification ~ ., data = train)
+    train1 <- train[ , !(names(train) %in% c("SalePrice"))]
+    nb_pred_c<-predict(nb, newdata = train1)
+
+    cm1<-caret::confusionMatrix(nb_pred_c,train1$Classification)
+    cm1
+    cm
+```
+Viendo las matrices de confución podemos ver que el accuracy de train es menor que el accuracy de test, esto puede inidicar que el modelo esta sobreajustado. Ya que se esperaria que al predecir con train tuviese un buen desempo pues es con los datos que esta entrenado. A pesar de que no son datos nuevos para el modelo no fue capaz de predecirlos de mejor manera que los datos de test.
+
+# 9 Crossvalidation del modelo de clasificación
+```{r crossvalidation}
+    train_without_pred_variable <- train[ , !(names(train) %in% c("Classification"))]
+    ct <- trainControl(method = "cv",number=10, verboseIter=T)
+    modelo3 <- caret::train(train_without_pred_variable, train$Classification, trControl = ct, method="naive_bayes")
+    y3pred <- predict(modelo3, newdata = test)
+    cm <- table(test$Classification, y3pred)
+    tp <- cm[2, 2]  # true positives Casa este etiquetada bien cara / cara
+    tn <- cm[1, 1]  # true negatives Casa esta etiquetada bien barata / barata
+    fp <- cm[1, 2]  # false positives Casa etiquetada como cara / barata
+    fn <- cm[2, 1]  # false negatives Casa etiquetada como barata / cara
+    recall <- tp / (tp + fn)
+    recall
+    
+```
