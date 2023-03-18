@@ -1,5 +1,5 @@
 ```{r instalaciones_paquetes, echo=FALSE}
-    install.packages("naivebayes")
+    #install.packages("naivebayes")
 ```
 
 ```{r cargar_librerias, echo=FALSE, message=FALSE, warning=FALSE}
@@ -17,7 +17,7 @@
     library(ggplot2)
     library(MLmetrics)
     library(tree)
-    #library(klaR)
+    library(naivebayes)
 ```
 
 # 1. Lectura Dataset
@@ -112,7 +112,7 @@ El modelo de regresión no es muy bueno, ya que el R^2 es de `r R2` y un modelo 
 Cabe destacar que ningún modelo a llegado a la escala de 0.75, por lo que se puede decir que ninguno de los modelos es aceptable. Esto se puede deber a que los datos al ser precios de casas algunos puden estar sobrevaludados dificultando la predicción. Pero de todos los modelos el este modelo fue el que peor lo hizo. Dentro de los los siguiente modelos: Regresión lineal Multivariable, Arbol de regresión , Regresion Random Forest y Regresión con Naive Bayes el modelo con mejores resultados fue el de Regresión Random Forest con un R^2 de 0.82.
 
 # 7 Analisis de los resultado del modelo de clasificacion
-EL modelo de clasificación no sobresale entre los otros modelos desarrollados ya que presenta un Recall es de `r recall_score`. Este resultado es un poco mayor que el recall de los arboles de regresión. Sin embargo este modelo no es mejor que Random Forest, que es de 0.88
+El modelo esta balaceado por la manera en que se hizo corte en porciones de 33%. Al observar la matriz de confusion se puede ver que el modelo predice bien las casas economicas y las caras, pero no predice tan bien las casas intermedias. Esto se puede deber a que las casas intermedias son las que tienen un precio mas cercano a las casas economicas y a las caras, por lo que el modelo puede confundirlos.
 
 # 8 El modelo de clasificación es mejor que el de regresión?
 ```{r overfiting}
@@ -127,7 +127,7 @@ EL modelo de clasificación no sobresale entre los otros modelos desarrollados y
 Viendo las matrices de confución podemos ver que el accuracy de train es menor que el accuracy de test, esto puede inidicar que el modelo esta sobreajustado. Ya que se esperaria que al predecir con train tuviese un buen desempo pues es con los datos que esta entrenado. A pesar de que no son datos nuevos para el modelo no fue capaz de predecirlos de mejor manera que los datos de test.
 
 # 9 Crossvalidation del modelo de clasificación
-```{r crossvalidation}
+```{r crossvalidation, Warning=FALSE, message=FALSE}
     train_without_pred_variable <- train[ , !(names(train) %in% c("Classification"))]
     ct <- trainControl(method = "cv",number=10, verboseIter=T)
     modelo3 <- caret::train(train_without_pred_variable, train$Classification, trControl = ct, method="naive_bayes")
@@ -141,3 +141,5 @@ Viendo las matrices de confución podemos ver que el accuracy de train es menor 
     recall
     
 ```
+# 10 Compare la eficiencia del algoritmo con el resultado obtenido 
+EL modelo de clasificación no sobresale entre los otros modelos desarrollados ya que presenta un Recall es de `r recall_score`. Este resultado es un poco mayor que el recall de los arboles de regresión. Sin embargo este modelo no es mejor que Random Forest, que tiene un recall de 0.88. Random Forest demostró ser el mejor de todos lo modelos, esto podría asociarse a que fue el modelo que más se tardó.

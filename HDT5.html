@@ -225,7 +225,11 @@ Detection Rate             0.2893            0.3098             0.1481
 Detection Prevalence       0.3166            0.4829             0.2005
 Balanced Accuracy          0.8969            0.8586             0.6817</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>    recall_score <span class="ot">&lt;-</span> <span class="fu">Recall</span>(test<span class="sc">$</span>Classification, nb_pred_c,<span class="at">positive =</span> <span class="fu">c</span>(<span class="st">"Caras"</span>,<span class="st">"Intermedias"</span>,<span class="st">"Economicas"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>    recall_score <span class="ot">&lt;-</span> <span class="fu">Recall</span>(test<span class="sc">$</span>Classification, nb_pred_c,<span class="at">positive =</span> <span class="fu">c</span>(<span class="st">"Caras"</span>,<span class="st">"Intermedias"</span>,<span class="st">"Economicas"</span>))</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    recall_score</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8355263</code></pre>
+</div>
 </div>
 </section>
 <section id="analisis-de-los-resultado-del-modelo-de-regresion" class="level1">
@@ -238,21 +242,21 @@ Balanced Accuracy          0.8969            0.8586             0.6817</code></p
 </section>
 <section id="analisis-de-los-resultado-del-modelo-de-clasificacion" class="level1">
 <h1>7 Analisis de los resultado del modelo de clasificacion</h1>
-<p>EL modelo de clasificación es no sobresale entre los otros modelos desarrollados ya que presenta un Accuracy es de 0.8355263.</p>
+<p>EL modelo de clasificación no sobresale entre los otros modelos desarrollados ya que presenta un Recall es de 0.8355263. Este resultado es un poco mayor que el recall de los arboles de regresión. Sin embargo este modelo no es mejor que Random Forest, que es de 0.88</p>
 </section>
 <section id="el-modelo-de-clasificación-es-mejor-que-el-de-regresión" class="level1">
 <h1>8 El modelo de clasificación es mejor que el de regresión?</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>    nb <span class="ot">&lt;-</span> <span class="fu">naiveBayes</span>(train<span class="sc">$</span>Classification <span class="sc">~</span> ., <span class="at">data =</span> train)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    train1 <span class="ot">&lt;-</span> train[ , <span class="sc">!</span>(<span class="fu">names</span>(train) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"SalePrice"</span>))]</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    nb_pred_c<span class="ot">&lt;-</span><span class="fu">predict</span>(nb, <span class="at">newdata =</span> train1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>    nb <span class="ot">&lt;-</span> <span class="fu">naiveBayes</span>(train<span class="sc">$</span>Classification <span class="sc">~</span> ., <span class="at">data =</span> train)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    train1 <span class="ot">&lt;-</span> train[ , <span class="sc">!</span>(<span class="fu">names</span>(train) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"SalePrice"</span>))]</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    nb_pred_c<span class="ot">&lt;-</span><span class="fu">predict</span>(nb, <span class="at">newdata =</span> train1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in predict.naiveBayes(nb, newdata = train1): Type mismatch between
 training and new data for variable 'SalePrice'. Did you use factors with
 numeric labels for training, and numeric values for new data?</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>    cm1<span class="ot">&lt;-</span>caret<span class="sc">::</span><span class="fu">confusionMatrix</span>(nb_pred_c,train1<span class="sc">$</span>Classification)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    cm1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>    cm1<span class="ot">&lt;-</span>caret<span class="sc">::</span><span class="fu">confusionMatrix</span>(nb_pred_c,train1<span class="sc">$</span>Classification)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    cm1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Confusion Matrix and Statistics
 
@@ -285,7 +289,7 @@ Detection Rate             0.2791            0.3183             0.1156
 Detection Prevalence       0.3320            0.5015             0.1665
 Balanced Accuracy          0.8731            0.8538             0.6331</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>    cm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>    cm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Confusion Matrix and Statistics
 
@@ -317,6 +321,2839 @@ Prevalence                 0.3462            0.3189             0.3349
 Detection Rate             0.2893            0.3098             0.1481
 Detection Prevalence       0.3166            0.4829             0.2005
 Balanced Accuracy          0.8969            0.8586             0.6817</code></pre>
+</div>
+</div>
+<p>Viendo las matrices de confución podemos ver que el accuracy de train es menor que el accuracy de test, esto puede inidicar que el modelo esta sobreajustado. Ya que se esperaria que al predecir con train tuviese un buen desempo pues es con los datos que esta entrenado. A pesar de que no son datos nuevos para el modelo no fue capaz de predecirlos de mejor manera que los datos de test.</p>
+</section>
+<section id="crossvalidation-del-modelo-de-clasificación" class="level1">
+<h1>9 Crossvalidation del modelo de clasificación</h1>
+<div class="cell" data-warning="false">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>    train_without_pred_variable <span class="ot">&lt;-</span> train[ , <span class="sc">!</span>(<span class="fu">names</span>(train) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Classification"</span>))]</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    ct <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>,<span class="at">number=</span><span class="dv">10</span>, <span class="at">verboseIter=</span>T)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    modelo3 <span class="ot">&lt;-</span> caret<span class="sc">::</span><span class="fu">train</span>(train_without_pred_variable, train<span class="sc">$</span>Classification, <span class="at">trControl =</span> ct, <span class="at">method=</span><span class="st">"naive_bayes"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+ Fold01: usekernel= TRUE, laplace=0, adjust=1 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MSZoning - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Street - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotShape - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Utilities - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotConfig - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Neighborhood - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HouseStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature YearRemodAdd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofMatl - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior1st - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior2nd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MasVnrType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Foundation - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Heating - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HeatingQC - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Electrical - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature KitchenQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Functional - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleCondition - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>- Fold01: usekernel= TRUE, laplace=0, adjust=1 
++ Fold01: usekernel=FALSE, laplace=0, adjust=1 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MSZoning - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Street - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotShape - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Utilities - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotConfig - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Neighborhood - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HouseStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature YearRemodAdd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofMatl - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior1st - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior2nd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MasVnrType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Foundation - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Heating - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HeatingQC - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Electrical - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature KitchenQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Functional - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleCondition - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>- Fold01: usekernel=FALSE, laplace=0, adjust=1 
++ Fold02: usekernel= TRUE, laplace=0, adjust=1 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MSZoning - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Street - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotShape - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Utilities - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotConfig - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Neighborhood - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HouseStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature YearRemodAdd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofMatl - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior1st - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior2nd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MasVnrType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Foundation - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Heating - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HeatingQC - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Electrical - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature KitchenQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Functional - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleCondition - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>- Fold02: usekernel= TRUE, laplace=0, adjust=1 
++ Fold02: usekernel=FALSE, laplace=0, adjust=1 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MSZoning - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Street - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotShape - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Utilities - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotConfig - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Neighborhood - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HouseStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature YearRemodAdd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofMatl - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior1st - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior2nd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MasVnrType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Foundation - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Heating - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HeatingQC - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Electrical - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature KitchenQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Functional - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleCondition - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>- Fold02: usekernel=FALSE, laplace=0, adjust=1 
++ Fold03: usekernel= TRUE, laplace=0, adjust=1 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MSZoning - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Street - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotShape - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Utilities - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotConfig - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Neighborhood - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HouseStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature YearRemodAdd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofMatl - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior1st - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior2nd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MasVnrType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Foundation - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Heating - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HeatingQC - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Electrical - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature KitchenQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Functional - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleCondition - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>- Fold03: usekernel= TRUE, laplace=0, adjust=1 
++ Fold03: usekernel=FALSE, laplace=0, adjust=1 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MSZoning - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Street - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotShape - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Utilities - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotConfig - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Neighborhood - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HouseStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature YearRemodAdd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofMatl - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior1st - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior2nd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MasVnrType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Foundation - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Heating - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HeatingQC - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Electrical - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature KitchenQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Functional - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleCondition - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>- Fold03: usekernel=FALSE, laplace=0, adjust=1 
++ Fold04: usekernel= TRUE, laplace=0, adjust=1 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MSZoning - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Street - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotShape - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Utilities - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotConfig - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Neighborhood - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HouseStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature YearRemodAdd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofMatl - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior1st - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior2nd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MasVnrType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Foundation - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Heating - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HeatingQC - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature CentralAir - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Electrical - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature KitchenQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Functional - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleCondition - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>- Fold04: usekernel= TRUE, laplace=0, adjust=1 
++ Fold04: usekernel=FALSE, laplace=0, adjust=1 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MSZoning - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Street - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotShape - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Utilities - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotConfig - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Neighborhood - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HouseStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature YearRemodAdd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofMatl - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior1st - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior2nd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MasVnrType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Foundation - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Heating - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HeatingQC - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature CentralAir - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Electrical - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature KitchenQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Functional - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleCondition - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>- Fold04: usekernel=FALSE, laplace=0, adjust=1 
++ Fold05: usekernel= TRUE, laplace=0, adjust=1 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MSZoning - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Street - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotShape - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Utilities - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotConfig - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Neighborhood - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HouseStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature YearRemodAdd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofMatl - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior1st - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior2nd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MasVnrType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Foundation - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Heating - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HeatingQC - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Electrical - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature KitchenQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Functional - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleCondition - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>- Fold05: usekernel= TRUE, laplace=0, adjust=1 
++ Fold05: usekernel=FALSE, laplace=0, adjust=1 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MSZoning - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Street - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotShape - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Utilities - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotConfig - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Neighborhood - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HouseStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature YearRemodAdd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofMatl - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior1st - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior2nd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MasVnrType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Foundation - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Heating - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HeatingQC - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Electrical - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature KitchenQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Functional - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleCondition - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>- Fold05: usekernel=FALSE, laplace=0, adjust=1 
++ Fold06: usekernel= TRUE, laplace=0, adjust=1 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MSZoning - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Street - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotShape - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Utilities - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotConfig - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Neighborhood - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HouseStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature YearRemodAdd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofMatl - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior1st - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior2nd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MasVnrType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Foundation - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Heating - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HeatingQC - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Electrical - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature KitchenQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Functional - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleCondition - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>- Fold06: usekernel= TRUE, laplace=0, adjust=1 
++ Fold06: usekernel=FALSE, laplace=0, adjust=1 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MSZoning - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Street - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotShape - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Utilities - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotConfig - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Neighborhood - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HouseStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature YearRemodAdd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofMatl - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior1st - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior2nd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MasVnrType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Foundation - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Heating - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HeatingQC - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Electrical - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature KitchenQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Functional - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleCondition - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>- Fold06: usekernel=FALSE, laplace=0, adjust=1 
++ Fold07: usekernel= TRUE, laplace=0, adjust=1 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MSZoning - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Street - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotShape - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Utilities - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotConfig - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Neighborhood - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BldgType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HouseStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature YearRemodAdd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofMatl - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior1st - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior2nd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MasVnrType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Foundation - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Heating - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HeatingQC - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Electrical - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature KitchenQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Functional - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature PavedDrive - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleCondition - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>- Fold07: usekernel= TRUE, laplace=0, adjust=1 
++ Fold07: usekernel=FALSE, laplace=0, adjust=1 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MSZoning - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Street - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotShape - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Utilities - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotConfig - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Neighborhood - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BldgType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HouseStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature YearRemodAdd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofMatl - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior1st - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior2nd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MasVnrType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Foundation - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Heating - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HeatingQC - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Electrical - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature KitchenQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Functional - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature PavedDrive - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleCondition - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>- Fold07: usekernel=FALSE, laplace=0, adjust=1 
++ Fold08: usekernel= TRUE, laplace=0, adjust=1 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MSZoning - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Street - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotShape - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Utilities - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotConfig - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Neighborhood - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HouseStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature YearRemodAdd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofMatl - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior1st - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior2nd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MasVnrType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Foundation - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Heating - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HeatingQC - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Electrical - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature KitchenQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Functional - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleCondition - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>- Fold08: usekernel= TRUE, laplace=0, adjust=1 
++ Fold08: usekernel=FALSE, laplace=0, adjust=1 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MSZoning - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Street - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotShape - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Utilities - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotConfig - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Neighborhood - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HouseStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature YearRemodAdd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofMatl - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior1st - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior2nd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MasVnrType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Foundation - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Heating - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HeatingQC - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Electrical - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature KitchenQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Functional - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleCondition - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>- Fold08: usekernel=FALSE, laplace=0, adjust=1 
++ Fold09: usekernel= TRUE, laplace=0, adjust=1 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MSZoning - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Street - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotShape - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Utilities - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotConfig - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Neighborhood - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BldgType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HouseStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature YearRemodAdd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofMatl - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior1st - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior2nd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MasVnrType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Foundation - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Heating - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HeatingQC - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Electrical - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature KitchenQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Functional - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleCondition - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>- Fold09: usekernel= TRUE, laplace=0, adjust=1 
++ Fold09: usekernel=FALSE, laplace=0, adjust=1 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MSZoning - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Street - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotShape - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Utilities - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotConfig - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Neighborhood - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BldgType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HouseStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature YearRemodAdd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofMatl - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior1st - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior2nd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MasVnrType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Foundation - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Heating - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HeatingQC - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Electrical - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature KitchenQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Functional - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleCondition - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>- Fold09: usekernel=FALSE, laplace=0, adjust=1 
++ Fold10: usekernel= TRUE, laplace=0, adjust=1 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MSZoning - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Street - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotShape - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Utilities - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotConfig - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Neighborhood - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HouseStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature YearRemodAdd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofMatl - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior1st - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior2nd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MasVnrType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Foundation - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtExposure - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Heating - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HeatingQC - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Electrical - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature KitchenQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Functional - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleCondition - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>- Fold10: usekernel= TRUE, laplace=0, adjust=1 
++ Fold10: usekernel=FALSE, laplace=0, adjust=1 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MSZoning - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Street - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotShape - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Utilities - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotConfig - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Neighborhood - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HouseStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature YearRemodAdd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofMatl - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior1st - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior2nd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MasVnrType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Foundation - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtExposure - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Heating - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HeatingQC - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Electrical - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature KitchenQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Functional - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleCondition - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>- Fold10: usekernel=FALSE, laplace=0, adjust=1 
+Aggregating results
+Selecting tuning parameters
+Fitting laplace = 0, usekernel = TRUE, adjust = 1 on full training set</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MSZoning - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Street - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotShape - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Utilities - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature LotConfig - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Neighborhood - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Condition2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HouseStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature YearRemodAdd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofStyle - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature RoofMatl - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior1st - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Exterior2nd - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature MasVnrType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature ExterCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Foundation - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType1 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature BsmtFinType2 - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Heating - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature HeatingQC - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Electrical - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature KitchenQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature Functional - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageQual - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature GarageCond - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleType - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: naive_bayes(): Feature SaleCondition - zero probabilities are present.
+Consider Laplace smoothing.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb722"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb722-1"><a href="#cb722-1" aria-hidden="true" tabindex="-1"></a>    y3pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelo3, <span class="at">newdata =</span> test)</span>
+<span id="cb722-2"><a href="#cb722-2" aria-hidden="true" tabindex="-1"></a>    cm <span class="ot">&lt;-</span> <span class="fu">table</span>(test<span class="sc">$</span>Classification, y3pred)</span>
+<span id="cb722-3"><a href="#cb722-3" aria-hidden="true" tabindex="-1"></a>    tp <span class="ot">&lt;-</span> cm[<span class="dv">2</span>, <span class="dv">2</span>]  <span class="co"># true positives Casa este etiquetada bien cara / cara</span></span>
+<span id="cb722-4"><a href="#cb722-4" aria-hidden="true" tabindex="-1"></a>    tn <span class="ot">&lt;-</span> cm[<span class="dv">1</span>, <span class="dv">1</span>]  <span class="co"># true negatives Casa esta etiquetada bien barata / barata</span></span>
+<span id="cb722-5"><a href="#cb722-5" aria-hidden="true" tabindex="-1"></a>    fp <span class="ot">&lt;-</span> cm[<span class="dv">1</span>, <span class="dv">2</span>]  <span class="co"># false positives Casa etiquetada como cara / barata</span></span>
+<span id="cb722-6"><a href="#cb722-6" aria-hidden="true" tabindex="-1"></a>    fn <span class="ot">&lt;-</span> cm[<span class="dv">2</span>, <span class="dv">1</span>]  <span class="co"># false negatives Casa etiquetada como barata / cara</span></span>
+<span id="cb722-7"><a href="#cb722-7" aria-hidden="true" tabindex="-1"></a>    recall <span class="ot">&lt;-</span> tp <span class="sc">/</span> (tp <span class="sc">+</span> fn)</span>
+<span id="cb722-8"><a href="#cb722-8" aria-hidden="true" tabindex="-1"></a>    recall</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
 </div>
 </div>
 </section>
